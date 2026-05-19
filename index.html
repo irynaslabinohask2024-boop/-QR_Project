@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Військовий QR Генератор</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Inter', sans-serif;
+
+    background:linear-gradient(135deg,#0B1F3A,#1F4E79);
+
+    color:white;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    min-height:100vh;
+
+    padding:20px;
+}
+
+.container{
+    width:100%;
+    max-width:500px;
+
+    background:rgba(255,255,255,0.08);
+
+    backdrop-filter:blur(15px);
+
+    border-radius:25px;
+
+    padding:35px;
+
+    box-shadow:0 0 25px rgba(0,0,0,0.4);
+}
+
+h1{
+    text-align:center;
+
+    margin-bottom:15px;
+
+    font-size:32px;
+}
+
+p{
+    text-align:center;
+
+    margin-bottom:25px;
+
+    opacity:0.8;
+}
+
+input{
+    width:100%;
+
+    padding:16px;
+
+    border:none;
+
+    border-radius:14px;
+
+    outline:none;
+
+    font-size:16px;
+
+    margin-bottom:20px;
+}
+
+.color-label{
+    margin-bottom:10px;
+    display:block;
+}
+
+.color-picker{
+    width:100%;
+    height:50px;
+
+    border:none;
+
+    border-radius:14px;
+
+    margin-bottom:20px;
+
+    cursor:pointer;
+}
+
+button{
+    width:100%;
+
+    padding:16px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:#2D6A8D;
+
+    color:white;
+
+    font-size:16px;
+
+    cursor:pointer;
+
+    transition:0.3s;
+}
+
+button:hover{
+    background:#A7C7E7;
+
+    color:#0B1F3A;
+
+    transform:scale(1.04);
+}
+
+#qrBox{
+    margin-top:30px;
+
+    text-align:center;
+}
+
+#qrBox img{
+    margin-top:15px;
+
+    border-radius:15px;
+
+    background:white;
+
+    padding:10px;
+
+    box-shadow:0 0 20px rgba(0,0,0,0.5);
+}
+
+.download-btn{
+    margin-top:20px;
+}
+
+.example{
+    margin-top:15px;
+
+    font-size:14px;
+
+    opacity:0.7;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🛡 QR Генератор</h1>
+
+<p>
+Система генерації QR-кодів для військово-технологічних задач
+</p>
+
+<input
+type="text"
+id="text"
+placeholder="Введіть текст або посилання"
+>
+
+<label class="color-label">
+Оберіть колір QR-коду:
+</label>
+
+<input
+type="color"
+id="qrColor"
+class="color-picker"
+value="#000000"
+>
+
+<button onclick="generateQR()">
+Згенерувати QR-код
+</button>
+
+<div class="example">
+Приклад:<br>
+https://google.com<br>
+або<br>
+Інтелектуальна бойова машина
+</div>
+
+<div id="qrBox"></div>
+
+</div>
+
+<script>
+
+function generateQR(){
+
+    let text = document.getElementById("text").value;
+
+    let color =
+    document.getElementById("qrColor").value.replace("#","");
+
+    if(text === ""){
+
+        alert("Введіть текст або посилання");
+
+        return;
+    }
+
+    let qrUrl =
+    "https://api.qrserver.com/v1/create-qr-code/?size=250x250"
+    + "&color=" + color
+    + "&data=" + encodeURIComponent(text);
+
+    document.getElementById("qrBox").innerHTML =
+    `
+    <img src="${qrUrl}" alt="QR Code">
+
+    <br>
+
+    <a href="${qrUrl}" download="qr-code.png">
+        <button class="download-btn">
+            Завантажити QR-код
+        </button>
+    </a>
+    `;
+}
+
+</script>
+
+</body>
+</html>
